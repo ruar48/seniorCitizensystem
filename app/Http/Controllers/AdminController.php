@@ -35,6 +35,31 @@ class AdminController extends Controller
             ->with('alert-success', 'Added Barangay successfully.');
 
     }
+
+    // delete barangay
+    public function AdminDeleteBarangay(Request $request, $id)
+    {
+        // Find and delete the item
+        $barangayDel = AddBarangay::findOrFail($id);
+        $barangayDel->delete();
+
+        return response()->json(['message' => 'Item deleted successfully']);
+    }
+    // edit barangay
+    public function updateDataCalamity(Request $request, $id)
+    {
+        $calamity = calamityType::find($id);
+
+        if (! $calamity) {
+            return redirect()->back()->with('error', 'Calamity not found.');
+        }
+
+        $calamity->calamity_name = $request->calamity_name;
+        $calamity->save();
+
+        return response()->json(['message' => 'Calamity updated successfully']);
+    }
+
     // end barangay
     public function AdminManageBarangay()
     {

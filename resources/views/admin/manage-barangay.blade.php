@@ -167,16 +167,15 @@
                 $('#delete').show();
             });
 
-            // Close the modal when the "Close" button is clicked
-            $('#delete .btn-secondary').click(function() {
+            $('#delete .btn-white').click(function() {
                 $('#delete').hide();
             });
 
         });
 
-        $('#delete-form').submit(function(event) {
+        $('#delete').submit(function(event) {
             event.preventDefault();
-            var id = $('#delete-id').val();
+            var id = $('#id').val();
 
             $.ajax({
                 type: 'DELETE',
@@ -193,6 +192,58 @@
                     console.log(data);
                 }
             });
+        });
+    </script>
+
+    {{-- edit fetched data start --}}
+    <script>
+        $(document).ready(function() {
+            // When the "Edit" button is clicked, open the modal and populate the form
+            $('.btn-edit').click(function() {
+                var id = $(this).data('id');
+                var calamityName = $(this).closest('tr').find('td:eq(1)').text(); // Get the Calamity Name
+
+
+                $('#calamity-id').val(id);
+                $('#calamity-type').val(calamityName);
+
+
+
+                $('#editModal').show();
+            });
+
+            // Close the modal when the "Close" button is clicked
+            $('#editModal .btn-secondary').click(function() {
+                $('#editModal').hide();
+            });
+        });
+        // Handle form submission
+        $('#update-form').submit(function(event) {
+            event.preventDefault();
+            var id = $('#calamity-id').val();
+            var calamityName = $('#calamity-type').val();
+
+            $.ajax({
+                type: 'PUT',
+                url: '{{ route('admin.update', ['id' => ':id']) }}'.replace(':id', id),
+                data: {
+                    id: id,
+                    calamity_name: calamityName,
+                    _token: '{{ csrf_token() }}',
+                    _method: 'PUT',
+                },
+                success: function(data) {
+                    // Handle success, e.g., close the modal, show a success message, or update the table.
+                    $('#editModal').hide();
+                    alert(data.message);
+                    location.reload(); // Refresh the page or update the table as needed.
+                },
+                error: function(data) {
+                    // Handle errors, e.g., display an error message.
+                    console.log(data);
+                }
+            });
+
         });
     </script>
 

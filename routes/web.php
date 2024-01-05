@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.index');
 Route::get('/admin/add/barangay', [AdminController::class, 'AdminAddBarangay'])->name('admin.add-barangay');
 Route::post('/admin/add/barangay/person', [AdminController::class, 'AdminAddBarangayPerson'])->name('admin.add-barangayPerson');
+Route::delete('/admin/delete/{id}', [AdminController::class, 'AdminDeleteBarangay'])->name('admin.delete-barangay');
 
 Route::get('/admin/manage/barangay', [AdminController::class, 'AdminManageBarangay'])->name('admin.manage-barangay');
 
