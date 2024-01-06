@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Senior Citizen Information System </title>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ route('asset/fontawesome/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ route('asset/css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ route('asset/css/style.css') }}">
-    <link rel="stylesheet" href="{{ route('asset/tables/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/tables/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <style type="text/css">
         table tr td {
             padding: 0.3rem !important;
@@ -84,7 +84,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-center">
-                    <img src="{{ route('asset/img/sent.png') }}" alt="" width="50" height="46">
+                    <img src="{{ asset('asset/img/sent.png') }}" alt="" width="50" height="46">
                     <h3>Are you sure want to delete this Admin User?</h3>
                     <div class="m-t-20">
                         <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
@@ -149,6 +149,7 @@
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <form>
+                        @csrf
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -197,14 +198,14 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="{{ route('asset/jquery/jquery.min.js') }}"></script>
-    <script src="{{ route('asset/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ route('asset/js/adminlte.js') }}"></script>
+    <script src="{{ asset('asset/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('asset/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('asset/js/adminlte.js') }}"></script>
     <!-- DataTables  & Plugins -->
-    <script src="{{ route('asset/tables/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ route('asset/tables/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ route('asset/tables/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ route('asset/tables/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('asset/tables/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('asset/tables/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('asset/tables/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('asset/tables/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
     <script>
         $(function() {
             $("#example1").DataTable();

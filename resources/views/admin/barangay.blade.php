@@ -161,7 +161,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-body text-center">
-                    <form>
+                    <form action="{{ route('admin.addBrgyUSer') }}" method="POST">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -172,37 +172,42 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Barangay</label>
-                                                <select class="form-control">
-                                                    <option>Barangay 1</option>
-                                                    <option>Barangay 2</option>
-                                                    <option>Barangay 3</option>
+                                                <select class="form-control" name="barangayID">
+                                                    <option value="" selected disabled>&larr; Select Barangay
+                                                        &rarr;</option>
+                                                    @foreach ($brgy as $rowbrgy)
+                                                        <option value="{{ $rowbrgy->id }}">
+                                                            {{ $rowbrgy->barangayName }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Full Name</label>
-                                                <input type="text" class="form-control" placeholder="Full Name">
+                                                <input type="text" class="form-control" placeholder="Full Name"
+                                                    name="fullName">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Contact Number</label>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Contact Number">
+                                                    placeholder="Contact Number" name="contactNumber">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Username</label>
-                                                <input type="text" class="form-control" placeholder="Username">
+                                                <input type="text" class="form-control" placeholder="Username"
+                                                    name="userName">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Password</label>
                                                 <input type="password" class="form-control"
-                                                    placeholder="************">
+                                                    placeholder="************" name="password">
                                             </div>
                                         </div>
                                     </div>

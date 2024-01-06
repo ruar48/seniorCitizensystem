@@ -15,7 +15,7 @@
             padding-left: 20px !important;
         }
     </style>
-    </style>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -41,7 +41,13 @@
                 <div class="container-fluid">
                     <div class="card card-info">
                         <div class="card card-outline card-info">
-                            <form>
+                            @if (session()->has('alert-success'))
+                                <div class="alert alert-success">
+                                    {{ session()->get('alert-success') }}
+                                </div>
+                            @endif
+                            <form action="{{ route('admin.addSeniorCitizen') }}" method="POST">
+                                @csrf
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -52,63 +58,66 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Senior ID</label>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="SNR-123">
+                                                        <input type="text" class="form-control" placeholder="SNR-123"
+                                                            name="seniorID">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>First Name</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="first name">
+                                                            placeholder="first name" name="firstName">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Middle Name</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="middle name">
+                                                            placeholder="middle name" name="middleName">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Last Name</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="last name">
+                                                            placeholder="last name" name="lastName">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Gender</label>
-                                                        <select class="form-control">
-                                                            <option>Male</option>
-                                                            <option>Female</option>
+                                                        <select class="form-control" name="gender">
+                                                            <option selected disabled>&larr; Select Gender &rarr;
+                                                            </option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Birthday</label>
-                                                        <input type="date" class="form-control">
+                                                        <input type="date" class="form-control" name="birthday">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Age</label>
-                                                        <input type="number" class="form-control" placeholder="Age">
+                                                        <input type="number" name="age" class="form-control"
+                                                            placeholder="age">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Birth Place</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Birth Place">
+                                                            placeholder="Birth Place" name="birthPlace">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>Address</label>
-                                                        <textarea class="form-control"></textarea>
+                                                        <textarea class="form-control" name="address"></textarea>
                                                     </div>
                                                 </div>
 
@@ -122,49 +131,52 @@
                                                     <div class="form-group">
                                                         <label>Contact Number</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Contact Number">
+                                                            placeholder="Contact Number" name="contactNumber">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>With Pension</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="With Pension">
+                                                            placeholder="With Pension" name="pensionstatus">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Monthly Pension</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Monthly Pension">
+                                                            placeholder="Monthly Pension" name="monthlyPension">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Status</label>
-                                                        <input type="text" class="form-control" placeholder="Active"
-                                                            readonly>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Active" value="Active" name="status">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Emergency Contact Person</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Emergency Contact Person">
+                                                            placeholder="Emergency Contact Person"
+                                                            name="emergencyContactPerson">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Emergency Contact Number</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Emergency Contact Number">
+                                                            placeholder="Emergency Contact Number"
+                                                            name="emergencyContactPersonNumber">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Emergency Contact Address</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Emergency Contact Address">
+                                                            placeholder="Emergency Contact Address"
+                                                            name="emergencyContactPersonAddress">
                                                     </div>
                                                 </div>
                                             </div>

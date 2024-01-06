@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AddBarangay extends Model
+class barangayUsers extends Model
 {
     protected $fillable = [
-        'barangayName',
+        'barangayID',
+        'fullName',
         'contactNumber',
-        'email',
-        'contactPerson',
-        'contactPersonNumber',
+        'userName',
+        'password',
 
     ];
 
-    public function barangay(){
-        return $this->hasMany(barangayUsers::class);
+
+    public function barangay_information(){
+        return $this->belongsTo(AddBarangay::class);
     }
     use HasFactory;
 }

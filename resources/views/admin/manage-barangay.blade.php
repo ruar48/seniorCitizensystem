@@ -65,9 +65,9 @@
                                             <td>{{ $row->contactPerson }}</td>
                                             <td>{{ $row->contactPersonNumber }}</td>
                                             <td class="text-center">
-                                                <a class="btn btn-sm btn-success" href="#" data-toggle="modal"
-                                                    data-target="#edit" data-id="{{ $row->id }}"><i
-                                                        class="fa fa-edit"></i> update</a>
+                                                <a class="btn btn-sm btn-success btn-edit" href="#"
+                                                    data-toggle="modal" data-target="#edit"
+                                                    data-id="{{ $row->id }}"><i class="fa fa-edit"></i> update</a>
                                                 <a class="btn btn-sm btn-danger btn-delete" href="#"
                                                     data-toggle="modal" data-target="#delete"
                                                     data-id="{{ $row->id }}"><i class="fa fa-trash-alt"></i>
@@ -104,42 +104,48 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-body text-center">
-                    <form>
+                    <form id="update-form">
+                        @csrf
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card-header">
                                         <span class="fa fa-hotel"> Barangay Information</span>
+                                        <input type="hidden" id="edit-id">
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Barangay Name</label>
-                                                <input type="text" class="form-control" placeholder="Barangay Name">
+                                                <input type="text" id="brgy" class="form-control"
+                                                    placeholder="Barangay Name">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Contact Number</label>
-                                                <input type="text" class="form-control" placeholder="Contact Number">
+                                                <input type="text" id="contact" class="form-control"
+                                                    placeholder="Contact Number">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Email</label>
-                                                <input type="text" class="form-control" placeholder="Email">
+                                                <input type="text" id="email" class="form-control"
+                                                    placeholder="Email">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Contact Person</label>
-                                                <input type="text" class="form-control" placeholder="Contact Person">
+                                                <input type="text" id="contactPerson" class="form-control"
+                                                    placeholder="Contact Person">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Contact Person Number</label>
-                                                <input type="text" class="form-control"
+                                                <input type="text" id="contactPersonNumber" class="form-control"
                                                     placeholder="Contact Person Number">
                                             </div>
                                         </div>
@@ -198,52 +204,68 @@
     {{-- edit fetched data start --}}
     <script>
         $(document).ready(function() {
-            // When the "Edit" button is clicked, open the modal and populate the form
             $('.btn-edit').click(function() {
                 var id = $(this).data('id');
-                var calamityName = $(this).closest('tr').find('td:eq(1)').text(); // Get the Calamity Name
+                var brgy = $(this).closest('tr').find('td:eq(0)').text();
+                var contact = $(this).closest('tr').find('td:eq(1)').text();
+                var email = $(this).closest('tr').find('td:eq(2)').text();
+                var contactPerson = $(this).closest('tr').find('td:eq(3)').text();
+                var contactPersonNumber = $(this).closest('tr').find('td:eq(4)').text();
 
 
-                $('#calamity-id').val(id);
-                $('#calamity-type').val(calamityName);
+                $('#edit-id').val(id);
+                $('#brgy').val(brgy);
+                $('#contact').val(contact);
+                $('#email').val(email);
+                $('#contactPerson').val(contactPerson);
+                $('#contactPersonNumber').val(contactPersonNumber);
+                console.log(id);
+                console.log(brgy);
+                console.log(contact);
+                console.log(email);
+                console.log(contactPerson);
+                console.log(contactPersonNumber);
 
-
-
-                $('#editModal').show();
+                $('#edit').show();
+            });
+            $('#edit .btn-secondary').click(function() {
+                $('#edit').hide();
             });
 
-            // Close the modal when the "Close" button is clicked
-            $('#editModal .btn-secondary').click(function() {
-                $('#editModal').hide();
-            });
-        });
-        // Handle form submission
-        $('#update-form').submit(function(event) {
-            event.preventDefault();
-            var id = $('#calamity-id').val();
-            var calamityName = $('#calamity-type').val();
+            $('#update-form').submit(function(event) {
+                event.preventDefault();
+                var id = $('#edit-id').val();
+                var brgy = $('#brgy').val();
+                var contact = $('#contact').val();
+                var email = $('#email').val();
+                var contactPerson = $('#contactPerson').val();
+                var contactPersonNumber = $('#contactPersonNumber').val();
 
-            $.ajax({
-                type: 'PUT',
-                url: '{{ route('admin.update', ['id' => ':id']) }}'.replace(':id', id),
-                data: {
-                    id: id,
-                    calamity_name: calamityName,
-                    _token: '{{ csrf_token() }}',
-                    _method: 'PUT',
-                },
-                success: function(data) {
-                    // Handle success, e.g., close the modal, show a success message, or update the table.
-                    $('#editModal').hide();
-                    alert(data.message);
-                    location.reload(); // Refresh the page or update the table as needed.
-                },
-                error: function(data) {
-                    // Handle errors, e.g., display an error message.
-                    console.log(data);
-                }
-            });
 
+                $.ajax({
+                    type: 'PUT',
+                    url: '/admin/update/' + id,
+                    data: {
+                        id: id,
+                        brgy: brgy,
+                        contact: contact,
+                        email: email,
+                        contactPerson: contactPerson,
+                        contactPersonNumber: contactPersonNumber,
+                        _token: '{{ csrf_token() }}',
+                        _method: 'PUT',
+                    },
+                    success: function(data) {
+                        $('#edit').hide();
+                        alert(data.message);
+                        location.reload();
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+
+            });
         });
     </script>
 
