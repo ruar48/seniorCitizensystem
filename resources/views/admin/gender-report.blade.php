@@ -58,11 +58,11 @@
                                         <tbody>
                                             <tr>
                                                 <td>Male</td>
-                                                <td>20</td>
+                                                <td>{{ $maleCount }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Female</td>
-                                                <td>19</td>
+                                                <td>{{ $femaleCount }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -96,15 +96,16 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-
+            var maleCount = {{ $maleCount }};
+            var femaleCount = {{ $femaleCount }};
             var data = google.visualization.arrayToDataTable([
-                ['Male', 'Female'],
-                ['Male', 19],
-                ['Female', 20],
+                ['Gender', 'Count'],
+                ['Male', maleCount],
+                ['Female', femaleCount],
             ]);
 
             var options = {
-                title: ''
+                title: 'Gender Distribution'
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));

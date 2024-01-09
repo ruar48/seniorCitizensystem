@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\AddBarangay;
 use App\Models\seniorCitizen;
+use App\Models\barangayUsers;
+use App\Models\adminTables;
+
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -11,7 +15,14 @@ class AdminController extends Controller
 {
     public function AdminDashboard()
     {
-        return view('admin.index');
+        $brgyCount = AddBarangay::whereNotNull('barangayName')->count();
+        $seniorCount = seniorCitizen::count();
+        $withPensionCount = seniorCitizen::where('pensionstatus','with pension')->count();
+        $withoutPensionCount = seniorCitizen::where('pensionstatus','without pension')->count();
+        $femaleCount = seniorCitizen::where('gender','Female')->count();
+        $maleCount = seniorCitizen::where('gender','Male')->count();
+
+        return view('admin.index', compact('brgyCount','seniorCount','withPensionCount','withoutPensionCount','femaleCount','maleCount'));
     }
     // start barangay
     public function AdminAddBarangay()
@@ -21,11 +32,11 @@ class AdminController extends Controller
     }
 
     // add barangay
-    public function AdminAddBarangayPerson(Request $request)
+    public function AdminAddBarangayPersonel(Request $request)
     {
         $request->validate([
             'barangayName' => 'required|max:255',
-            'fullName' => 'required|max:255',
+            'contactNumber' => 'required|max:255',
             'email' => 'required|max:255',
             'contactPerson' => 'required|max:255',
             'contactPersonNumber' => 'required|max:255',
@@ -154,20 +165,77 @@ public function AdminDeleteSenior(Request $request, $id)
 
 
     // $hashedPassword = Hash::make($request->input('password'));
-
+// start add admin
     public function Admin()
+
     {
-        return view('admin.admin');
+        $admin = adminTables::all();
+
+        return view('admin.admin-manage',  compact('admin'));
     }
+
+    public function AdminAddAdmin(Request $request)
+    {
+
+        $request->validate([
+            'fullName' => 'required|max:255',
+            'contactNumber' => 'required|max:255',
+            'userName' => 'required|max:255',
+            'password' => 'required|max:255',
+        ]);
+        $hashedPassword = Hash::make($request->input('password'));
+
+        adminTables::create([
+            'fullName' => $request->input('fullName'),
+            'contactNumber' => $request->input('contactNumber'),
+            'userName' => $request->input('userName'),
+            'password' => $hashedPassword,
+        ]);
+        return redirect()->route('admin')
+        ->with('alert-success', 'Added Barangay User successfully.');
+
+    }
+    // start delete admin
+    public function AdminDeleteAdminUser(Request $request, $id)
+        {
+            $adminDel = adminTables::findOrFail($id);
+            $adminDel->delete();
+
+            return response()->json(['message' => 'Item deleted successfully']);
+        }
+
+        // start update admin
+        public function AdminUpdateAdminUser(Request $request, $id)
+        {
+            $adminuser = adminTables::find($id);
+
+            if (! $adminuser) {
+                return redirect()->back()->with('error', 'barangay user not found.');
+            }
+            $adminuser->fullName = $request->fname;
+            $adminuser->contactNumber = $request->contact;
+            $adminuser->userName = $request->uname;
+
+            $adminuser->save();
+
+            return response()->json(['message' => 'updated successfully']);
+        }
+
+    // end aadmin
     // start add brgy user
     public function ViewBarangay()
     {
         $brgy = AddBarangay::all();
-        return view('admin.barangay', compact('brgy'));
+
+        $brgyUsers = barangayUsers::all();
+
+
+        return view('admin.barangay', compact('brgy','brgyUsers'));
     }
 
     public function AdminAddBrgyUser(Request $request)
     {
+
         $request->validate([
             'barangayID' => 'required|max:255',
             'fullName' => 'required|max:255',
@@ -175,25 +243,85 @@ public function AdminDeleteSenior(Request $request, $id)
             'userName' => 'required|max:255',
             'password' => 'required|max:255',
         ]);
+        $hashedPassword = Hash::make($request->input('password'));
 
-        AddBarangay::create($request->all());
+        barangayUsers::create([
+            'barangayID' => $request->input('barangayID'),
+            'fullName' => $request->input('fullName'),
+            'contactNumber' => $request->input('contactNumber'),
+            'userName' => $request->input('userName'),
+            'password' => $hashedPassword,
+        ]);
+        return redirect()->route('admin.barangay')
+        ->with('alert-success', 'Added Barangay User successfully.');
 
-        return response()->json(['message' => 'Added successfully']);
+    }
 
+    // start delete brgy User
 
+    public function AdminDeleteBarangayUser(Request $request, $id)
+    {
+        // Find and delete the item
+        $barangayUser = barangayUsers::findOrFail($id);
+        $barangayUser->delete();
+
+        return response()->json(['message' => 'Item deleted successfully']);
+    }
+
+    // start update barangay user
+
+    public function AdminUpdateBarangayUser(Request $request, $id)
+    {
+        $brgyuser = barangayUsers::find($id);
+
+        if (! $brgyuser) {
+            return redirect()->back()->with('error', 'barangay user not found.');
+        }
+
+        $brgyuser->barangayID = $request->brgy;
+        $brgyuser->fullName = $request->fname;
+        $brgyuser->contactNumber = $request->num;
+        $brgyuser->userName = $request->uname;
+
+        $brgyuser->save();
+
+        return response()->json(['message' => 'updated successfully']);
     }
     // end brgy user
 
     public function AdminAgeReport()
     {
-        return view('admin.age-report');
+        $ageBrackets = seniorCitizen::select(
+            DB::raw('CASE
+                WHEN age BETWEEN 0 AND 5 THEN "0 to 5"
+                WHEN age BETWEEN 6 AND 10 THEN "6 to 10"
+                WHEN age BETWEEN 11 AND 20 THEN "11 to 20"
+                WHEN age BETWEEN 21 AND 30 THEN "21 to 30"
+                WHEN age BETWEEN 31 AND 40 THEN "31 to 40"
+                WHEN age BETWEEN 41 AND 50 THEN "41 to 50"
+                WHEN age BETWEEN 51 AND 60 THEN "51 to 60"
+                ELSE "60 up"
+            END AS age_bracket'),
+            DB::raw('COUNT(*) as count')
+        )
+        ->groupBy('age_bracket')
+        ->get();
+        return view('admin.age-report' ,compact('ageBrackets'));
     }
     public function ViewBarangayReport()
     {
+        // $barangayCounts = seniorCitizen::select(
+        //     'brgy',
+        //     DB::raw('COUNT(*) as count')
+        // )
+        // ->groupBy('brgy')
+        // ->get();
         return view('admin.barangay-report');
     }
     public function AdminGenderReport()
     {
-        return view('admin.gender-report');
+        $femaleCount = seniorCitizen::where('gender','Female')->count();
+        $maleCount = seniorCitizen::where('gender','Male')->count();
+        return view('admin.gender-report', compact('femaleCount','maleCount'));
     }
 }

@@ -55,26 +55,12 @@
                                             </td>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>60-70</td>
-                                                <td>22</td>
-                                            </tr>
-                                            <tr>
-                                                <td>71-80</td>
-                                                <td>8</td>
-                                            </tr>
-                                            <tr>
-                                                <td>81-90</td>
-                                                <td>5</td>
-                                            </tr>
-                                            <tr>
-                                                <td>91-100</td>
-                                                <td>3</td>
-                                            </tr>
-                                            <tr>
-                                                <td>100 up</td>
-                                                <td>1</td>
-                                            </tr>
+                                            @foreach ($ageBrackets as $ageBracket)
+                                                <tr>
+                                                    <td>{{ $ageBracket->age_bracket }}</td>
+                                                    <td>{{ $ageBracket->count }}</td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -103,14 +89,17 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Bar Chart
+            var ageLabels = @json($ageBrackets->pluck('age_bracket')->toArray());
+            var ageData = @json($ageBrackets->pluck('count')->toArray());
+
             var barChartData = {
-                labels: ["60-70", "71-80", "81-90", "91-100", "100 up"],
+                labels: ageLabels,
                 datasets: [{
                     label: 'Total Senior',
                     backgroundColor: 'rgb(79,129,189)',
                     borderColor: 'rgba(0, 158, 251, 1)',
                     borderWidth: 1,
-                    data: [22, 8, 5, 3, 1]
+                    data: ageData,
                 }]
             };
 

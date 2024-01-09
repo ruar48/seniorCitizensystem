@@ -16,8 +16,10 @@ class AddBarangay extends Model
 
     ];
 
-    public function barangay(){
+    public function barangayInformation(){
         return $this->hasMany(barangayUsers::class);
     }
+
+
     use HasFactory;
 }

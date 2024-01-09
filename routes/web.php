@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.index');
 Route::get('/admin/add/barangay', [AdminController::class, 'AdminAddBarangay'])->name('admin.add-barangay');
-Route::post('/admin/add/barangay/person', [AdminController::class, 'AdminAddBarangayPerson'])->name('admin.add-barangayPerson');
+Route::post('/admin/add/barangay/person', [AdminController::class, 'AdminAddBarangayPersonel'])->name('admin.add-barangayPersonel');
 Route::delete('/admin/delete/{id}', [AdminController::class, 'AdminDeleteBarangay'])->name('admin.delete-barangay');
 Route::put('/admin/update/{id}', [AdminController::class, 'AdminUpdateBarangay'])->name('admin.update-barangay');
 
@@ -33,9 +33,14 @@ Route::put('/admin/update/senior/{id}', [AdminController::class, 'AdminUpdateSen
 Route::get('/admin/manage/senior', [AdminController::class, 'AdminManageSenior'])->name('admin.manage-senior');
 
 Route::get('/admin', [AdminController::class, 'Admin'])->name('admin');
+Route::post('/admin/add/admin', [AdminController::class, 'AdminAddAdmin'])->name('admin.addAdminUser');
+Route::delete('/admin/deleteuser/{id}', [AdminController::class, 'AdminDeleteAdminUser'])->name('admin.deleteadmin');
+Route::put('/admin/update/adminuser/{id}', [AdminController::class, 'AdminUpdateAdminUser'])->name('admin.updateAdminUser');
+
 Route::get('/admin/barangay', [AdminController::class, 'ViewBarangay'])->name('admin.barangay');
 Route::post('/admin/add/barangay/user', [AdminController::class, 'AdminAddBrgyUser'])->name('admin.addBrgyUSer');
-
+Route::delete('/admin/delete/barangay/user/{id}', [AdminController::class, 'AdminDeleteBarangayUser'])->name('admin.delete-brgyUser');
+Route::put('/admin/update/barangay/user/{id}', [AdminController::class, 'AdminUpdateBarangayUser'])->name('admin.updateBarangayUser');
 
 Route::get('/admin/age/report', [AdminController::class, 'AdminAgeReport'])->name('admin.age-report');
 Route::get('/admin/barangay/report', [AdminController::class, 'ViewBarangayReport'])->name('admin.barangay-report');

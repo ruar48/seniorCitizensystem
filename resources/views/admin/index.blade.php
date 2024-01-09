@@ -43,7 +43,7 @@
                                         <h5>Barangay</h5>
                                     </span>
                                     <span class="info-box-number">
-                                        <h2>42</h2>
+                                        <h2>{{ $brgyCount }}</h2>
                                     </span>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                         <h5>Senior Citizens</h5>
                                     </span>
                                     <span class="info-box-number">
-                                        <h2>100</h2>
+                                        <h2>{{ $seniorCount }}</h2>
                                     </span>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                         <h5>With Pensions</h5>
                                     </span>
                                     <span class="info-box-number">
-                                        <h2>75</h2>
+                                        <h2>{{ $withPensionCount }}</h2>
                                     </span>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                                         <h5>Without Pensions</h5>
                                     </span>
                                     <span class="info-box-number">
-                                        <h2>25</h2>
+                                        <h2>{{ $withoutPensionCount }}</h2>
                                     </span>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                                         <h5>Male</h5>
                                     </span>
                                     <span class="info-box-number">
-                                        <h2>55</h2>
+                                        <h2>{{ $maleCount }}</h2>
                                     </span>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                                         <h5>Female</h5>
                                     </span>
                                     <span class="info-box-number">
-                                        <h2>45</h2>
+                                        <h2>{{ $femaleCount }}</h2>
                                     </span>
                                 </div>
                             </div>

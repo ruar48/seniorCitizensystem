@@ -47,7 +47,7 @@
                                     {{ session()->get('alert-success') }}
                                 </div>
                             @endif
-                            <form action="{{ route('admin.add-barangayPerson') }}" method="POST">
+                            <form action="{{ route('admin.add-barangayPersonel') }}" method="POST">
                                 @csrf
                                 <div class="card-body">
                                     <div class="row">

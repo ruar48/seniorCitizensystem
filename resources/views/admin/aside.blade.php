@@ -139,14 +139,14 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="sms.html" class="nav-link">
                         <i class="nav-icon fa fa-cog"></i>
                         <p>
                             Sms Settings
                         </p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
     </div>
